@@ -10,12 +10,12 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponentInChildren<Rigidbody2D>();
     }
 
-    public void HandleMovement(float direction, float speed)
+    public void HandleHorizontalMovement(float direction, float speed)
     {
         _rb.linearVelocityX = direction * speed;
     }
     
-    public void HandleJump(float jumpHeight)
+    public void HandleVerticalMovement(float jumpHeight)
     {
         _rb.linearVelocityY = jumpHeight;
     }
