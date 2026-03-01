@@ -8,7 +8,7 @@ public class InputReader : MonoBehaviour, IPlayerActions
     private GameInput _gameInput;
 
     public event Action OnAttackEvent;
-    public event Action<Vector2> OnMoveEvent;
+    public event Action<float> OnMoveEvent;
     public event Action OnJumpEvent;
     public event Action<bool> OnCrouchEvent;
     public event Action OnInteractEvent;
@@ -85,7 +85,7 @@ public class InputReader : MonoBehaviour, IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        OnMoveEvent?.Invoke(context.ReadValue<Vector2>());
+        OnMoveEvent?.Invoke(context.ReadValue<float>());
     }
 
     public void OnPause(InputAction.CallbackContext context)
