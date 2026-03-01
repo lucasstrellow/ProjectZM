@@ -7,12 +7,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _rb = GetComponentInChildren<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     public void HandleHorizontalMovement(float direction, float speed)
     {
         _rb.linearVelocityX = direction * speed;
+        Debug.Log($"Horizontal Velocity: {_rb.linearVelocityX}");
     }
     
     public void HandleVerticalMovement(float jumpHeight)
