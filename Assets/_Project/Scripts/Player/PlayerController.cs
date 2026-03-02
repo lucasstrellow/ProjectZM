@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 
     private InputReader _inputReader;
     private PlayerMovement _playerMovement;
+    private CollisionSensors _collisionSensors;
 
     private float _horizontalInput;
     private bool _jumpInput;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         _inputReader = GetComponent<InputReader>();
         _playerMovement = GetComponent<PlayerMovement>();
+        _collisionSensors = GetComponent<CollisionSensors>();
     }
 
     private void OnEnable()
@@ -37,12 +39,11 @@ public class PlayerController : MonoBehaviour
     {
         _playerMovement.HandleHorizontalMovement(_horizontalInput, moveSpeed);
 
-        if (_jumpInput)
+        if (_collisionSensors.IsGround() && _jumpInput)
         {
             _playerMovement.HandleVerticalMovement(jumpForce);
             _jumpInput = false;
         }
-
     }
 
     private void HandleMoveInput(float direction)
