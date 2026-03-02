@@ -7,13 +7,15 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float jumpBufferDuration = 0.2f;
+
+    private float _jumpBufferTimer;
 
     private InputReader _inputReader;
     private PlayerMovement _playerMovement;
     private CollisionSensors _collisionSensors;
 
     private float _horizontalInput;
-    private bool _jumpInput;
 
     private void Awake()
     {
@@ -34,15 +36,22 @@ public class PlayerController : MonoBehaviour
         _inputReader.OnJumpEvent -= HandleJump;
     }
 
+    private void Update()
+    {
+        if (_jumpBufferTimer > 0f)
+        {
+            _jumpBufferTimer -= Time.deltaTime;
+        }
+    }
 
     private void FixedUpdate()
     {
         _playerMovement.HandleHorizontalMovement(_horizontalInput, moveSpeed);
 
-        if (_collisionSensors.IsGround() && _jumpInput)
+        if (_jumpBufferTimer > 0f && _collisionSensors.IsGround())
         {
             _playerMovement.HandleVerticalMovement(jumpForce);
-            _jumpInput = false;
+            _jumpBufferTimer = 0f;
         }
     }
 
@@ -53,6 +62,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        _jumpInput = true;
+        _jumpBufferTimer = jumpBufferDuration;
     }
 }

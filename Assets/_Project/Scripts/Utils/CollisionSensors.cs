@@ -11,4 +11,13 @@ public class CollisionSensors : MonoBehaviour
     {
         return Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, groundLayer);
     }
+
+    private void OnDrawGizmos()
+    {
+        if (groundCheckPoint != null)
+        {
+            Gizmos.color = IsGround() ? Color.green : Color.red;
+            Gizmos.DrawWireSphere(groundCheckPoint.position, groundCheckRadius);
+        }
+    }
 }
