@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float jumpBufferDuration = 0.2f;
+    [SerializeField] private float coyoteTimeDuration = 0.2f;
 
     private float _jumpBufferTimer;
+    private float _coyoteTimeTimer;
 
     private InputReader _inputReader;
     private PlayerMovement _playerMovement;
@@ -38,6 +40,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (_collisionSensors.IsGround())
+        {
+            _coyoteTimeTimer = coyoteTimeDuration;
+        }
+        else
+        {
+            _coyoteTimeTimer -= Time.deltaTime;
+        }
+
         if (_jumpBufferTimer > 0f)
         {
             _jumpBufferTimer -= Time.deltaTime;
@@ -48,7 +59,7 @@ public class PlayerController : MonoBehaviour
     {
         _playerMovement.HandleHorizontalMovement(_horizontalInput, moveSpeed);
 
-        if (_jumpBufferTimer > 0f && _collisionSensors.IsGround())
+        if (_jumpBufferTimer > 0f && _coyoteTimeTimer > 0f)
         {
             _playerMovement.HandleVerticalMovement(jumpForce);
             _jumpBufferTimer = 0f;
